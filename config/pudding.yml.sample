@@ -1,0 +1,10 @@
+# pudding configration sample
+#
+# http://localhost:4567/c/f_100/image.jpg
+# => read image file: /path/to/public/image.jpg
+# => and resize to fill 100px
+
+basedir: /path/to/public
+pudding_prefix: c
+pudding_pattern: f_(?<size>\d+)/(?<path>.*)
+

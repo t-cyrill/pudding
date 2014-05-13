@@ -20,8 +20,10 @@ Or install it yourself as:
 ## Usage
 
 ```
-bundle exec pudding -c config/pudding.yml
+$ bundle exec pudding -c config/pudding.yml
 ```
+
+configration example: config/pudding.yml.sample
 
 ## Contributing
 
