@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'pudding'
+require 'optparse'
+require 'yaml'
+
+options = {
+  config_file: 'config/pudding.yml'
+}
+OptionParser.new { |o|
+  o.on('-p port', 'Set port number (default = 4567)') { |port| options[:port] = port.to_i }
+  o.on('-o address', 'Set address to bind (default = 0.0.0.0)') { |addr| options[:bind] = addr }
+  o.on('-c config.yml', 'Set configration file') { |config| options[:config_file] = config }
+}.parse!(ARGV.dup)
+
+Pudding::App.run!(options)
