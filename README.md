@@ -7,15 +7,13 @@ It was designed to help application development. It should not be used on a publ
 
 Add this line to your application's Gemfile:
 
-    gem 'pudding'
+    gem 'pudding', :git => "https://github.com/t-cyrill/pudding"
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install pudding
+Or install it yourself.
 
 ## Usage
 
