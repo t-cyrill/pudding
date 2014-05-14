@@ -8,6 +8,10 @@ Pudding is inspired by "mod_small_light"(http://code.google.com/p/smalllight/), 
 
 "Milk pudding" looks like "Tofu". :)
 
+![kanten](https://raw.githubusercontent.com/t-cyrill/pudding/master/material/images/kanten.jpg)
+
+(This is not pudding. It's kanten.)
+
 ## Requirement
 
 * ImageMagick for rmagick
