@@ -2,6 +2,8 @@ require 'sinatra'
 require 'sinatra/config_file'
 require 'rmagick'
 
+require 'open-uri'
+
 module Pudding
   class App < Sinatra::Base
     before do
@@ -17,7 +19,7 @@ module Pudding
     end
 
     get '/' do
-      basedir = @settings['basedir']
+      base = @settings['base']
       <<"EOS"
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -28,14 +30,14 @@ module Pudding
 
 <h2>Configrations</h2>
 <dl>
-  <dt>basedir
-    <dd>#{basedir}
+  <dt>base
+    <dd>#{base}
 </dl>
 EOS
     end
 
     get "/*" do
-      base = @settings['basedir']
+      base = @settings['base']
       mode, matcher, rewrite_rule = :default, nil, nil
       req_path = params[:splat].first
 
@@ -52,7 +54,7 @@ EOS
         path = path.gsub(Regexp.compile(rewrite_rule[0]), rewrite_rule[1])
         env['rack.logger'].info "path rewrote #{orig_path} to #{path}" unless orig_path == path
       end
-      image = Magick::Image.read(base + path).first
+      image = Magick::Image.from_blob(open(base + path).read).first
 
       unless mode == :default
         width, height = case

@@ -7,8 +7,10 @@
 # http://localhost:4567/c/f_100x120/image.png
 # => read image file: /path/to/public/image.jpg
 # => and resize to fill 100px,120px
+#
+# base also can set URI pattern. i.e.) base: http://localhost:8000/images
 
-basedir: /path/to/public
+base: /path/to/public
 pudding_prefix: c
 
 definitions:
