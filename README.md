@@ -8,12 +8,30 @@ Pudding is inspired by "mod_small_light"(http://code.google.com/p/smalllight/), 
 
 "Milk pudding" looks like "Tofu". :)
 
-## Dependency
+## Requirement
 
 * ImageMagick for rmagick
 * Ruby > 2.0.0
 
 ## Installation
+
+### ImageMagick
+
+Install ImageMagick before pudding installation.
+
+#### For OSX Users
+
+```
+brew install imagemagick
+```
+
+#### For Debian Users
+
+```
+apt-get install imagemagick
+```
+
+### Pudding Installation
 
 Add this line to your application's Gemfile:
 
