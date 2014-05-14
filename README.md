@@ -22,11 +22,21 @@ Or install it yourself.
 
 ## Usage
 
+configration example: config/pudding.yml.sample
+
 ```
 $ bundle exec pudding -c config/pudding.yml
 ```
 
-configration example: config/pudding.yml.sample
+And open http://localhost:4567/
+
+### Change port
+
+Use `-p` option.
+
+```
+$ bundle exec pudding -c config/pudding.yml -p 12345
+```
 
 ## Contributing
 
