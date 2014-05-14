@@ -4,14 +4,14 @@ require 'rmagick'
 
 module Pudding
   class App < Sinatra::Base
-    set :root, File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'app'))
-
     before do
       @settings = YAML.load_file(settings.config_file)
     end
 
     configure do
       mime_type :jpg, 'image/jpeg'
+      mime_type :png, 'image/png'
+      mime_type :gif, 'image/gif'
     end
 
     get '/' do
@@ -33,24 +33,27 @@ EOS
     end
 
     get "/*" do
+      base = @settings['basedir']
       matcher = Regexp.compile(@settings['pudding_pattern']).match(params[:splat].first)
+      path = matcher ? matcher[:path] : params[:splat].first
+      image = Magick::Image.read(base + path).first
 
-      raise "'#{params[:splat].first}' is not match '#{@settings['pudding_pattern']}'" unless matcher
-
-      case
-      when matcher[:size]
-        width, height = matcher[:size], matcher[:size]
-      when matcher[:width] && matcher[:height]
-        width, height = matcher[:width], matcher[:height]
+      if matcher
+        case
+          when matcher[:size]
+            width, height = matcher[:size], matcher[:size]
+          when matcher[:width] && matcher[:height]
+            width, height = matcher[:width], matcher[:height]
+        end
+        image = image.resize_to_fill(width.to_i, height.to_i)
       end
 
-      path = matcher[:path]
+      case image.format
+        when 'GIF'; content_type :gif
+        when 'PNG'; content_type :png
+        when 'JPEG'; content_type :jpg
+      end
 
-      base = @settings['basedir']
-      original = Magick::Image.read(base + path).first
-      image = original.resize_to_fill(width.to_i, height.to_i)
-
-      content_type :jpg
       return image.to_blob
     end
   end

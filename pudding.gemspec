@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sinatra"
   spec.add_dependency "sinatra-contrib"
   spec.add_dependency "rmagick"
+  spec.add_dependency "thin"
 end

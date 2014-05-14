@@ -8,6 +8,11 @@ Pudding is inspired by "mod_small_light"(http://code.google.com/p/smalllight/), 
 
 "Milk pudding" looks like "Tofu". :)
 
+## Dependency
+
+* ImageMagick for rmagick
+* Ruby > 2.0.0
+
 ## Installation
 
 Add this line to your application's Gemfile:
