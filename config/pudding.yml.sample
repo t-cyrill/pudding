@@ -1,10 +1,22 @@
 # pudding configration sample
 #
-# http://localhost:4567/c/f_100/image.jpg
+# http://localhost:4567/c/c_100/image.png
+# => read image file: /path/to/public/image_base.jpg
+# => and resize to fit 100px
+#
+# http://localhost:4567/c/f_100x120/image.png
 # => read image file: /path/to/public/image.jpg
-# => and resize to fill 100px
+# => and resize to fill 100px,120px
 
 basedir: /path/to/public
 pudding_prefix: c
-pudding_pattern: f_(?<size>\d+)/(?<path>.*)
+
+definitions:
+  fit:
+    pattern: c_(?<size>\d+)/(?<path>.*)
+    rewrite:
+      - "/(.*)\\..*$"
+      - "/\\1_base.jpg"
+  fill:
+    pattern: f_(?<width>\d+)x(?<height>\d+)/(?<path>.*)
 

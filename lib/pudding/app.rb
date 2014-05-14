@@ -12,6 +12,8 @@ module Pudding
       mime_type :jpg, 'image/jpeg'
       mime_type :png, 'image/png'
       mime_type :gif, 'image/gif'
+
+      enable :logging
     end
 
     get '/' do
@@ -34,18 +36,37 @@ EOS
 
     get "/*" do
       base = @settings['basedir']
-      matcher = Regexp.compile(@settings['pudding_pattern']).match(params[:splat].first)
-      path = matcher ? matcher[:path] : params[:splat].first
+      mode, matcher, rewrite_rule = :default, nil, nil
+      req_path = params[:splat].first
+
+      parsed = @settings['definitions'].each do |k, df|
+        if reg = Regexp.compile(df['pattern']).match(req_path)
+          break [k, df['rewrite'], reg]
+        end
+      end
+      mode, rewrite_rule, matcher = parsed unless parsed == @settings['definitions']
+
+      path = mode == :default ? req_path : matcher[:path]
+      if rewrite_rule
+        orig_path = path
+        path = path.gsub(Regexp.compile(rewrite_rule[0]), rewrite_rule[1])
+        env['rack.logger'].info "path rewrote #{orig_path} to #{path}" unless orig_path == path
+      end
       image = Magick::Image.read(base + path).first
 
-      if matcher
-        case
+      unless mode == :default
+        width, height = case
           when matcher[:size]
-            width, height = matcher[:size], matcher[:size]
+            [matcher[:size], matcher[:size]]
           when matcher[:width] && matcher[:height]
-            width, height = matcher[:width], matcher[:height]
+            [matcher[:width], matcher[:height]]
         end
-        image = image.resize_to_fill(width.to_i, height.to_i)
+
+        image = case mode
+          when "fill"; image.resize_to_fill(width.to_i, height.to_i)
+          when "fit"; image.resize_to_fit(width.to_i, height.to_i)
+          else; image
+        end
       end
 
       case image.format
@@ -54,7 +75,7 @@ EOS
         when 'JPEG'; content_type :jpg
       end
 
-      return image.to_blob
+      image.to_blob
     end
   end
 end
