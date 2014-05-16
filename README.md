@@ -4,7 +4,7 @@ Pudding is image transformation server on demand.
 
 It was designed to help application development. It should not be used on a public network.
 
-Pudding is inspired by "mod_small_light"(http://code.google.com/p/smalllight/), "ngx_small_light"(https://github.com/cubicdaiya/ngx_small_light), and Tofu (Cookpad's).
+Pudding is inspired by [mod_small_light](http://code.google.com/p/smalllight/), [ngx_small_light](https://github.com/cubicdaiya/ngx_small_light), and Tofu (Cookpad's).
 
 "Milk pudding" looks like "Tofu". :)
 
